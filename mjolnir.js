@@ -93,17 +93,71 @@ process.on('message', function message(task) {
 	
 	var options = {
 	  'eventHandlers': eventHandlers,
-	  'mediaConstraints': {'audio': true, 'video': false}
+	  'mediaConstraints': {'audio': false, 'video': false}
 	};
 	var options1 = {
 	  'eventHandlers': eventHandlers1,
-	  'mediaConstraints': {'audio': true, 'video': false}
+	  'mediaConstraints': {'audio': false, 'video': false}
 	};
 
 	
 	coolPhone.start();
+	console.log('COOL PHONE ASTATERD..');
 	coolPhone1.start();
+    // Make a call 
+	//for(var i = 0; i < 60000; i++) {}
+	/*var milliSeconds = 5000;
+	var startTime = new Date().getTime(); // get the current time5.
+    while (new Date().getTime() < startTime + milliSeconds); // hog cpu */
+	var reg = false;
+					
+					coolPhone.on('connected', function(e)
+					{
+						var tport = e.data.transport;
+						//alert(tport);
+					});
+					
+					coolPhone1.on('newRTCSession', function(e)
+					{
+						var rtcSession = e.data.session;
+						console.log(" Incoming call request "+rtcSession.direction);
+						if (rtcSession.direction === 'incoming') {
+							rtcSession.answer(options1);
+							console.log(" Call Answered! ");
+						}
+					});
+					
+					coolPhone.on('registered', function(e)
+					{
+						var registered = e.data.response;
+						console.log(" register request "+registered);
+						reg = true;
+					});
+					coolPhone1.on('registered', function(e)
+					{
+						var registered = e.data.response;
+						console.log(" register request1 "+registered);
+						if (reg) {
+							coolPhone.call('sip:'+reciever+'@'+uriIP+':'+uriPort, options);
+						}
+					});
+					
+					coolPhone.on('registrationFailed', function(e)
+					{
+						console.log(" register failed for caller  "+e.data.response);
+						failedRegistrationCaller++;
+					});
+					
+					coolPhone1.on('registrationFailed', function(e)
+					{
+						console.log(" register failed for callee   "+e.data.response);
+						failedRegistrationCallee++;
+					});
 
+	//setTimeout(function(){coolPhone.call('sip:'+reciever+'@'+uriIP+':'+uriPort, options);}, 5000);
+	
+	//coolPhone.call('sip:'+reciever+'@'+uriIP+':'+uriPort, options);
+	
 	process.send({ type: 'open', duration: Date.now() - now, id: task.id });
 
 	setTimeout(function(){coolPhone.unregister(options);}, clHold);
