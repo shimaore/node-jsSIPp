@@ -102,13 +102,8 @@ process.on('message', function message(task) {
 
 	
 	coolPhone.start();
-	console.log('COOL PHONE ASTATERD..');
 	coolPhone1.start();
-    // Make a call 
-	//for(var i = 0; i < 60000; i++) {}
-	/*var milliSeconds = 5000;
-	var startTime = new Date().getTime(); // get the current time5.
-    while (new Date().getTime() < startTime + milliSeconds); // hog cpu */
+
 	var reg = false;
 					
 					coolPhone.on('connected', function(e)
@@ -133,6 +128,7 @@ process.on('message', function message(task) {
 						console.log(" register request "+registered);
 						reg = true;
 					});
+					// Upon successfull registration make a call
 					coolPhone1.on('registered', function(e)
 					{
 						var registered = e.data.response;
@@ -154,10 +150,7 @@ process.on('message', function message(task) {
 						failedRegistrationCallee++;
 					});
 
-	//setTimeout(function(){coolPhone.call('sip:'+reciever+'@'+uriIP+':'+uriPort, options);}, 5000);
-	
-	//coolPhone.call('sip:'+reciever+'@'+uriIP+':'+uriPort, options);
-	
+
 	process.send({ type: 'open', duration: Date.now() - now, id: task.id });
 
 	setTimeout(function(){coolPhone.unregister(options);}, clHold);
