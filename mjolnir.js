@@ -1,12 +1,14 @@
 'use strict';
 var JsSIP = require('jssip-for-node');
+var webRTC = require('nomedia-webrtc');
+JsSIP.setWebRTC(webRTC);
 var Socket = require('ws')
   , connections = {};
 
 var cnt;
 var glbInterval;
-var uriIP = 'XX.XX.XX.XX'; // Kindly change this appropriately
-var uriPort = 'XXXX';
+var uriIP = '127.0.0.1'; // Kindly change this appropriately
+var uriPort = '8060';
 var clHold = 10000;
 var caller;
 var reciever;

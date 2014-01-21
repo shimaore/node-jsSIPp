@@ -4,7 +4,7 @@
   "description": "Thor is WebSocket benchmark utility",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers coffee.md:coffee-script --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -43,5 +43,12 @@
     "shasum": "a51fcc40e860dd25b41b4b89a375318667dfedcd"
   },
   "_from": "thor@",
-  "_resolved": "https://registry.npmjs.org/thor/-/thor-1.0.0.tgz"
+  "_resolved": "https://registry.npmjs.org/thor/-/thor-1.0.0.tgz",
+  "devDependencies": {
+    "should": "~2.1.1",
+    "mocha": "~1.17.0",
+    "travis-freeswitch": "~2.1.0",
+    "jssip-for-node": "~0.1.1",
+    "nomedia-webrtc": "~0.1.0"
+  }
 }
